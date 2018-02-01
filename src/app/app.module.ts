@@ -11,16 +11,23 @@ import { HttpModule } from '@angular/http';
 
 import { AuthenticationService } from './authentication.service';
 import { ProductService } from './product.service';
+import { AuthGuardService } from './auth-guard.service';
 
 import { ProductComponent } from './product/product.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { ProductFormComponent } from './product-form/product-form.component';
+import { ProductAddComponent } from './product-add/product-add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ProductComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    ProductListComponent,
+    ProductFormComponent,
+    ProductAddComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +37,8 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
   ],
   providers: [
     AuthenticationService,
-    ProductService
+    ProductService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,34 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
-
-export interface Product {
-  productID: number,
-  price: number,
-  name: string,
-  description: string
-}
+import { Product } from '../product';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
-  selector: 'app-product',
+  selector: 'product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService) { }
 
   products: Product[]
 
   ngOnInit() {
-    this.productService.getProduct()
+
+    if (!localStorage.getItem('token')) {
+      this.route.navigate(['login']);
+    }
+
+    this.productService.getProducts()
       .map(resp => resp.json())
       .subscribe(
-      response => this.products = response
-      error => console.error(`Error: ${error.statusText}`));
+      response => this.products = response,
+      error => console.error(`Error: ${error.statusText}`)
+      );
   }
 
-  editProduct() {
-    this.productService.editProduct().subscribe()
+  logout() {
+    this.authenticationService.logout();
   }
 
 }
